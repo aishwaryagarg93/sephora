@@ -1,0 +1,34 @@
+%div.container#main-container
+	%div.row
+		%div.col-lg-3
+			Categories will come here
+			= form_tag("products/filter",method:'post',role:'form') do
+				- @all_categories.each do |c|
+					%input{type: "checkbox", :value => "#{c.id}", :name => "category[]"}
+						=c.name
+					%br
+				= submit_tag 'Submit', class: 'btn bth-primary'
+
+		%div.col-lg-9
+			%table.table
+				%thead.thead-default
+					%tr
+						%th Name
+						%th Description
+						%th Price
+				%tbody
+					- @all_products.each do |p|
+						%tr
+							%td 
+								= p.name
+							%td 
+								= p.description
+							%td 
+								= p.price
+
+			%div.pagination
+				= will_paginate @all_products, :renderer=> BootstrapPagination::Rails
+
+
+
+

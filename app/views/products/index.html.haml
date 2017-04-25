@@ -1,0 +1,46 @@
+- @selected_checkboxes ||= []
+%div.container#main-container
+  %div.row
+    %div.col-lg-3
+      Categories:
+      %br
+      %br
+      = form_tag("/",method:'post',role:'form') do
+        - @all_categories.each do |c|
+          %input{id: "#{c.id}", type: "checkbox", :value => "#{c.id}", :name => "category[]", :select => true}
+            =c.name
+          %br
+        = submit_tag 'Submit', class: 'btn bth-primary'
+
+    %div.col-lg-9
+      %table.table
+        %thead.thead-default
+          %tr
+            %th Name
+            %th Description
+            %th Price
+        %tbody
+          - @all_products.each do |p|
+            %tr
+              %td 
+                = p.name
+              %td 
+                = p.description
+              %td 
+                = p.price
+
+      %div.pagination
+        = will_paginate @all_products, :renderer=> BootstrapPagination::Rails
+
+
+:javascript
+  debugger;
+  var checkboxes = [];
+  checkboxes = #{@selected_checkboxes};
+  if (checkboxes != null && checkboxes.length > 0){
+    for(var i = 0;i < checkboxes.length; i++){
+      $("input#"+checkboxes[i]).prop('checked',true);
+    }
+  }
+  
+
